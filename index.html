@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Simulador de Robótica - Montagem</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <div id="painel">
+    <img src="imgs/router.jpeg" data-type="router" class="miniatura" draggable="true" title="Roteador">
+    <img src="imgs/raspberry.jpeg" data-type="pi" class="miniatura" draggable="true" title="Raspberry Pi">
+    <img src="imgs/car-router.jpeg" data-type="car-router" class="miniatura" draggable="true" title="Carro + Roteador">
+    <img src="imgs/rasp-car-rout.jpeg" data-type="car-router-pi" class="miniatura" draggable="true" title="Carro + Roteador + Pi">
+  </div>
+  <canvas id="cenario" width="800" height="600"></canvas>
+  <div id="lixeira-container" style="position: absolute; display: none;"></div>
+  <button id="proximo">Próximo</button>
+  <script src="main.js"></script>
+</body>
+
+</html>
