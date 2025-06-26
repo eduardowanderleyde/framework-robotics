@@ -11,8 +11,9 @@
   <h2>Visualização das Conexões</h2>
   <canvas id="canvas-visualizacao" width="800" height="600"></canvas>
   <script>
-    const componentes = JSON.parse(localStorage.getItem('componentes') || '[]');
-    const conexoes = JSON.parse(localStorage.getItem('conexoes') || '[]');
+    const cenario = JSON.parse(localStorage.getItem('cenario') || '{}');
+    const componentes = cenario.componentes || [];
+    const conexoes = cenario.conexoes || [];
     const canvas = document.getElementById('canvas-visualizacao');
     const ctx = canvas.getContext('2d');
 

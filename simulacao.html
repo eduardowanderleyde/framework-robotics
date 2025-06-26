@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Simulador de Robótica - Simulação</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <h2>Simulação do Cenário</h2>
+  <div id="resumo"></div>
+  <button id="executar-simulacao">Executar Simulação</button>
+  <div id="saida-simulacao" style="margin-top:20px;"></div>
+  <script>
+    // Carregar cenário e parâmetros
+    const cenario = JSON.parse(localStorage.getItem('cenario') || '{}');
+    const componentes = cenario.componentes || [];
+    const conexoes = cenario.conexoes || [];
+    const parametros = cenario.parametros || {};
+    // Mostrar resumo
+    let html = '<h3>Resumo do Cenário</h3>';
+    html += '<b>Tipo de Wi-Fi:</b> ' + (parametros.tipoWifi || '-') + '<br>';
+    html += '<b>Dispositivos:</b><ul>';
+    componentes.forEach(c => {
+      html += `<li>${c.nome} (${c.tipo}) [x=${c.x}, y=${c.y}]</li>`;
+    });
+    html += '</ul>';
+    html += '<b>Conexões:</b><ul>';
+    conexoes.forEach(con => {
+      html += `<li>${con.origem} ↔ ${con.destino}</li>`;
+    });
+    html += '</ul>';
+    document.getElementById('resumo').innerHTML = html;
+
+    // Botão para executar simulação (placeholder)
+    document.getElementById('executar-simulacao').onclick = function () {
+      // Aqui você pode integrar com backend Python futuramente
+      document.getElementById('saida-simulacao').innerHTML = '<b>Simulação iniciada!</b><br>Integre aqui com o backend Python para processar o cenário.';
+    };
+  </script>
+</body>
+
+</html>

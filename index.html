@@ -9,31 +9,45 @@
 
 <body>
   <div id="painel">
-    <img src="imgs/router.jpeg" data-type="router" class="miniatura" draggable="true" title="Roteador">
-    <img src="imgs/raspberry.jpeg" data-type="pi" class="miniatura" draggable="true" title="Raspberry Pi">
-    <img src="imgs/car-router.jpeg" data-type="car-router" class="miniatura" draggable="true" title="Carro + Roteador">
-    <img src="imgs/rasp-car-rout.jpeg" data-type="car-router-pi" class="miniatura" draggable="true" title="Carro + Roteador + Pi">
+    <button id="add-router">Adicionar Roteador</button>
+    <button id="add-pi">Adicionar Raspberry Pi</button>
+    <button id="add-car-router">Adicionar Carro+Roteador</button>
+    <button id="add-car-router-pi">Adicionar Carro+Roteador+Pi</button>
+    <button id="limpar">Limpar Cenário</button>
+    <button id="exportar">Exportar JSON</button>
+    <button id="importar">Importar JSON</button>
+    <input type="file" id="importar-arquivo" style="display:none" accept="application/json">
+  </div>
+  <div id="mensagem" style="margin-bottom:8px;color:#333;font-weight:bold;"></div>
+  <div id="instrucoes" style="margin-bottom:8px;font-size:14px;color:#555;">
+    Clique nos botões para adicionar dispositivos. Arraste para mover. Clique em dois dispositivos para conectar. Clique em uma conexão para remover. Clique duas vezes em um dispositivo para editar. Use Delete para remover selecionado. ESC para desmarcar. Use as setas do teclado para mover o dispositivo selecionado. Exporte para salvar o cenário e importe para carregar.
+  </div>
+  <div id="parametros-simulacao" style="margin-bottom: 12px;">
+    <label>Tipo de Wi-Fi:
+      <select id="tipo-wifi">
+        <option value="2.4GHz">2.4GHz</option>
+        <option value="5GHz">5GHz</option>
+        <option value="Wi-Fi 6">Wi-Fi 6</option>
+      </select>
+    </label>
+    <button id="iniciar-simulacao">Iniciar Simulação</button>
   </div>
   <canvas id="cenario" width="800" height="600"></canvas>
   <div id="lixeira-container" style="position: absolute; display: none;"></div>
-  <button id="proximo">Próximo</button>
   <script src="main.js"></script>
   <script>
-    document.getElementById('proximo').onclick = function () {
-      // Nomear e salvar componentes
-      const contadores = { router: 0, pi: 0, 'car-router': 0, 'car-router-pi': 0 };
-      const componentesNomeados = [];
-      componentes.forEach(comp => {
-        contadores[comp.tipo]++;
-        let nome = '';
-        if (comp.tipo === 'router') nome = `roteador${contadores[comp.tipo]}`;
-        if (comp.tipo === 'pi') nome = `raspberry${contadores[comp.tipo]}`;
-        if (comp.tipo === 'car-router') nome = `carRouter${contadores[comp.tipo]}`;
-        if (comp.tipo === 'car-router-pi') nome = `carRouterRaspberry${contadores[comp.tipo]}`;
-        componentesNomeados.push({ nome, tipo: comp.tipo, x: comp.x, y: comp.y });
-      });
-      localStorage.setItem('componentes', JSON.stringify(componentesNomeados));
-      window.location.href = 'conexoes.html';
+    document.getElementById('iniciar-simulacao').onclick = function () {
+      // Salvar parâmetros e cenário
+      const tipoWifi = document.getElementById('tipo-wifi').value;
+      let cenario = localStorage.getItem('cenario');
+      if (!cenario) {
+        alert('Monte o cenário antes de iniciar a simulação!');
+        return;
+      }
+      cenario = JSON.parse(cenario);
+      cenario.parametros = { tipoWifi };
+      localStorage.setItem('cenario', JSON.stringify(cenario));
+      window.location.href = 'simulacao.html';
     };
   </script>
 </body>

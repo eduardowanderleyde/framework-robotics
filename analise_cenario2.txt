@@ -1,0 +1,22 @@
+=== Relatório de Análise de Conectividade ===
+Total de pontos de escaneamento: 16
+
+Roteador router1:
+  Média RSSI: -34.7 dBm
+  Sinal mais forte: -30.0 dBm
+  Sinal mais fraco: -37.5 dBm
+  Pontos de sinal fraco (≤-70 dBm): 0
+
+Roteador router2:
+  Média RSSI: -34.1 dBm
+  Sinal mais forte: -30.0 dBm
+  Sinal mais fraco: -40.0 dBm
+  Pontos de sinal fraco (≤-70 dBm): 0
+
+Total de handovers: 2
+  Handover para router1 em t=0.0s, RSSI=-35.0 dBm, pos=(0.0,0.0)
+  Handover para router2 em t=8.0s, RSSI=-30.0 dBm, pos=(20.0,0.0)
+
+Total de períodos de desconexão: 0
+
+Sugestão: Posicione roteadores para minimizar zonas de sinal fraco e reduzir handovers/desconexões.
