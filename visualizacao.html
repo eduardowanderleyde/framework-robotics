@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Simulador de Robótica - Visualização</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <h2>Visualização das Conexões</h2>
+  <canvas id="canvas-visualizacao" width="800" height="600"></canvas>
+  <script>
+    const componentes = JSON.parse(localStorage.getItem('componentes') || '[]');
+    const conexoes = JSON.parse(localStorage.getItem('conexoes') || '[]');
+    const canvas = document.getElementById('canvas-visualizacao');
+    const ctx = canvas.getContext('2d');
+
+    // Cores para cada tipo
+    const cores = {
+      'router': '#007bff',
+      'pi': '#27ae60',
+      'car-router': '#e67e22',
+      'car-router-pi': '#8e44ad'
+    };
+
+    // Desenhar conexões (linhas)
+    conexoes.forEach(con => {
+      const origem = componentes.find(c => c.nome === con.origem);
+      const destino = componentes.find(c => c.nome === con.destino);
+      if (origem && destino) {
+        ctx.beginPath();
+        ctx.moveTo(origem.x + 50, origem.y + 50);
+        ctx.lineTo(destino.x + 50, destino.y + 50);
+        ctx.strokeStyle = '#333';
+        ctx.lineWidth = 3;
+        ctx.stroke();
+      }
+    });
+
+    // Desenhar componentes
+    componentes.forEach(comp => {
+      ctx.fillStyle = cores[comp.tipo] || '#888';
+      ctx.fillRect(comp.x, comp.y, 100, 100);
+      ctx.fillStyle = '#fff';
+      ctx.font = 'bold 14px Arial';
+      ctx.textAlign = 'center';
+      ctx.fillText(comp.nome, comp.x + 50, comp.y + 55);
+      ctx.font = '12px Arial';
+      ctx.fillText(comp.tipo, comp.x + 50, comp.y + 75);
+    });
+  </script>
+</body>
+
+</html>

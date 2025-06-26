@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Simulador de Robótica - Conexões</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <h2>Conexões entre Componentes</h2>
+  <div id="lista-componentes"></div>
+  <div id="mensagem" style="height:24px;margin:8px 0;"></div>
+  <form id="form-conexao">
+    <label>Origem:
+      <select id="origem"></select>
+    </label>
+    <label>Destino:
+      <select id="destino"></select>
+    </label>
+    <button type="submit">Adicionar Conexão</button>
+  </form>
+  <h3>Conexões criadas:</h3>
+  <ul id="conexoes-lista"></ul>
+  <button id="proximo">Próximo</button>
+  <script>
+    // Carregar componentes
+    const componentes = JSON.parse(localStorage.getItem('componentes') || '[]');
+    const lista = document.getElementById('lista-componentes');
+    lista.innerHTML = '<b>Componentes:</b> ' + componentes.map(c => `${c.nome} (${c.tipo})`).join(', ');
+
+    // Preencher selects
+    const origemSel = document.getElementById('origem');
+    const destinoSel = document.getElementById('destino');
+    componentes.forEach(c => {
+      const opt1 = document.createElement('option');
+      opt1.value = c.nome;
+      opt1.textContent = c.nome;
+      origemSel.appendChild(opt1);
+      const opt2 = document.createElement('option');
+      opt2.value = c.nome;
+      opt2.textContent = c.nome;
+      destinoSel.appendChild(opt2);
+    });
+
+    // Função para mostrar mensagem
+    function mostrarMensagem(texto, tipo = 'sucesso') {
+      const msg = document.getElementById('mensagem');
+      msg.textContent = texto;
+      msg.style.color = tipo === 'erro' ? 'red' : 'green';
+      setTimeout(() => { msg.textContent = ''; }, 2000);
+    }
+
+    // Gerenciar conexões
+    const conexoes = [];
+    const conexoesLista = document.getElementById('conexoes-lista');
+    document.getElementById('form-conexao').onsubmit = function (e) {
+      e.preventDefault();
+      const origem = origemSel.value;
+      const destino = destinoSel.value;
+      if (!origem || !destino) {
+        mostrarMensagem('Selecione origem e destino!', 'erro');
+        return;
+      }
+      if (origem === destino) {
+        mostrarMensagem('Origem e destino devem ser diferentes!', 'erro');
+        return;
+      }
+      if (conexoes.some(c => c.origem === origem && c.destino === destino)) {
+        mostrarMensagem('Conexão já existe!', 'erro');
+        return;
+      }
+      conexoes.push({ origem, destino });
+      atualizarLista();
+      mostrarMensagem('Conexão criada com sucesso!');
+    };
+    function atualizarLista() {
+      conexoesLista.innerHTML = '';
+      conexoes.forEach(c => {
+        const li = document.createElement('li');
+        li.textContent = `${c.origem} → ${c.destino}`;
+        conexoesLista.appendChild(li);
+      });
+    }
+    document.getElementById('proximo').onclick = function () {
+      if (conexoes.length === 0) {
+        mostrarMensagem('Adicione pelo menos uma conexão!', 'erro');
+        return;
+      }
+      localStorage.setItem('conexoes', JSON.stringify(conexoes));
+      mostrarMensagem('Conexões salvas! Indo para a visualização...');
+      setTimeout(() => {
+        window.location.href = 'visualizacao.html';
+      }, 1000);
+    };
+  </script>
+</body>
+
+</html>

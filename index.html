@@ -18,6 +18,24 @@
   <div id="lixeira-container" style="position: absolute; display: none;"></div>
   <button id="proximo">Próximo</button>
   <script src="main.js"></script>
+  <script>
+    document.getElementById('proximo').onclick = function () {
+      // Nomear e salvar componentes
+      const contadores = { router: 0, pi: 0, 'car-router': 0, 'car-router-pi': 0 };
+      const componentesNomeados = [];
+      componentes.forEach(comp => {
+        contadores[comp.tipo]++;
+        let nome = '';
+        if (comp.tipo === 'router') nome = `roteador${contadores[comp.tipo]}`;
+        if (comp.tipo === 'pi') nome = `raspberry${contadores[comp.tipo]}`;
+        if (comp.tipo === 'car-router') nome = `carRouter${contadores[comp.tipo]}`;
+        if (comp.tipo === 'car-router-pi') nome = `carRouterRaspberry${contadores[comp.tipo]}`;
+        componentesNomeados.push({ nome, tipo: comp.tipo, x: comp.x, y: comp.y });
+      });
+      localStorage.setItem('componentes', JSON.stringify(componentesNomeados));
+      window.location.href = 'conexoes.html';
+    };
+  </script>
 </body>
 
 </html>
